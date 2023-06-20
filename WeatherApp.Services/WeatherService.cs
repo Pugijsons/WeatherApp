@@ -12,9 +12,9 @@ public class WeatherService : IWeatherService
         _locationService = locationService;
     }
 
-    public async Task<CurrentWeatherModel> GetWeatherData()
+    public async Task<CurrentWeatherModel> GetWeatherDataAsync()
     {
-        var locationData = _locationService.GetLocationData();
+        var locationData = _locationService.GetLocationDataAsync();
         using var client = new HttpClient();
         var weatherData =
             await client.GetAsync(

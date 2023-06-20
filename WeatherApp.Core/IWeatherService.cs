@@ -4,5 +4,5 @@ namespace WeatherApp.Core;
 
 public interface IWeatherService
 {
-    public Task<CurrentWeatherModel> GetWeatherData();
+    public Task<CurrentWeatherModel> GetWeatherDataAsync();
 }

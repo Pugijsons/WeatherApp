@@ -4,5 +4,5 @@ namespace WeatherApp.Core;
 
 public interface ILocationService
 {
-    public Task<IPQuery> GetLocationData();
+    public Task<IPCallResponseModel> GetLocationDataAsync();
 }
