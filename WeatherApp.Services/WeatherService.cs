@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using WeatherApp.Core;
 using WeatherApp.Core.Models;
+using WeatherApp.Services.Memory;
 
 namespace WeatherApp.Services;
 
@@ -8,15 +9,24 @@ public class WeatherService : IWeatherService
 {
     private readonly ILocationService _locationService;
     private WeatherDictionary _dictionary;
-    public WeatherService(ILocationService locationService, WeatherDictionary dictionary)
+    private readonly IWeatherDataStorage _storage;
+    public WeatherService(ILocationService locationService, WeatherDictionary dictionary, IWeatherDataStorage storage)
     {
         _locationService = locationService;
         _dictionary = dictionary;
+        _storage = storage;
     }
 
     public async Task<CurrentWeatherModel> GetWeatherDataAsync()
     {
         var locationData = _locationService.GetLocationDataAsync();
+        var retrievedData = _storage.RetrieveData(locationData.Result.query);
+
+        if (retrievedData != null)
+        {
+            return retrievedData.current_weather;
+        }
+
         using var client = new HttpClient();
         var weatherData =
             await client.GetAsync(
@@ -24,6 +34,7 @@ public class WeatherService : IWeatherService
         weatherData.EnsureSuccessStatusCode();
         string jsonResponse = await weatherData.Content.ReadAsStringAsync();
         var response = JsonSerializer.Deserialize<WeatherData>(jsonResponse);
+        _storage.AddDataEntry(locationData.Result.query, response);
         return response.current_weather;
     }
 
@@ -41,7 +52,6 @@ public class WeatherService : IWeatherService
             returnData.IsDay = true;
         }
         else returnData.IsDay = false;
-
         return returnData;
     }
 }

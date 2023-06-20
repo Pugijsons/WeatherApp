@@ -1,6 +1,7 @@
 using WeatherApp.Core;
 using WeatherApp.Core.Models;
 using WeatherApp.Services;
+using WeatherApp.Services.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
-builder.Services.AddSingleton<WeatherDictionary>();
+builder.Services.AddScoped<WeatherDictionary>();
+builder.Services.AddSingleton<IWeatherDataStorage, WeatherDataStorage>();
 
 var app = builder.Build();
 
