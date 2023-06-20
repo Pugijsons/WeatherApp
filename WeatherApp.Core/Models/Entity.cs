@@ -1,6 +1,8 @@
-﻿namespace WeatherApp.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Entity
+namespace WeatherApp.Core.Models;
+
+public abstract class Entity
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using WeatherApp.Core;
 using WeatherApp.Core.Models;
+using WeatherApp.Data;
 using WeatherApp.Services.Memory;
 
 namespace WeatherApp.Services;
@@ -8,13 +9,18 @@ namespace WeatherApp.Services;
 public class WeatherService : IWeatherService
 {
     private readonly ILocationService _locationService;
-    private WeatherDictionary _dictionary;
     private readonly IWeatherDataStorage _storage;
-    public WeatherService(ILocationService locationService, WeatherDictionary dictionary, IWeatherDataStorage storage)
+    private readonly WeatherDictionary _dictionary;
+    private readonly HttpClient _client;
+    private readonly IEntityService<WeatherData> _weatherDataEntityService;
+
+    public WeatherService(ILocationService locationService, WeatherDictionary dictionary, IWeatherDataStorage storage, IEntityService<WeatherData> weatherDataEntityService)
     {
         _locationService = locationService;
         _dictionary = dictionary;
         _storage = storage;
+        _client = new HttpClient();
+        _weatherDataEntityService = weatherDataEntityService;
     }
 
     public async Task<CurrentWeatherModel> GetWeatherDataAsync()
@@ -27,14 +33,15 @@ public class WeatherService : IWeatherService
             return retrievedData.current_weather;
         }
 
-        using var client = new HttpClient();
         var weatherData =
-            await client.GetAsync(
+            await _client.GetAsync(
                 $"https://api.open-meteo.com/v1/forecast?latitude={locationData.Result.lat}&longitude={locationData.Result.lon}&current_weather=true&temperature_2m,weathercode,windspeed_10m&timezone=auto");
         weatherData.EnsureSuccessStatusCode();
         string jsonResponse = await weatherData.Content.ReadAsStringAsync();
         var response = JsonSerializer.Deserialize<WeatherData>(jsonResponse);
         _storage.AddDataEntry(locationData.Result.query, response);
+        _weatherDataEntityService.Add(response);
+
         return response.current_weather;
     }
 
@@ -51,6 +58,7 @@ public class WeatherService : IWeatherService
         {
             returnData.IsDay = true;
         }
+
         else returnData.IsDay = false;
         return returnData;
     }
