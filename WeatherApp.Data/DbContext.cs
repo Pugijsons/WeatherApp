@@ -1,6 +1,6 @@
 ﻿namespace WeatherApp.Data
 {
-    public class Class1
+    public class DbContext
     {
 
     }

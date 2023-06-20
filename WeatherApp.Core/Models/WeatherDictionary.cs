@@ -2,7 +2,7 @@
 
 public class WeatherDictionary
 {
-    private Dictionary<int, string> Weather = new Dictionary<int, string>()
+    public Dictionary<int, string> Weather = new Dictionary<int, string>()
     {
         { 0, "Clear sky" },
         { 1, "Mainly clear" },

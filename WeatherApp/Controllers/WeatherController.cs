@@ -30,7 +30,8 @@ namespace WeatherApp.Controllers
         public async Task<IActionResult> GetWeatherData()
         {
             var weatherData = await _weatherService.GetWeatherDataAsync();
-            return Ok(weatherData);
+            var returnData = _weatherService.CreateReturnData(weatherData);
+            return Ok(returnData);
         }
     }
 }
