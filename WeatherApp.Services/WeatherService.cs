@@ -27,7 +27,7 @@ public class WeatherService : IWeatherService
         return response.current_weather;
     }
 
-    public ReturnDataModel GetWeatherData(CurrentWeatherModel model)
+    public ReturnDataModel CreateReturnData(CurrentWeatherModel model)
     {
         ReturnDataModel returnData = new ReturnDataModel();
         returnData.Temperature = model.temperature + " °C";
