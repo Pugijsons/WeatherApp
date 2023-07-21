@@ -34,4 +34,5 @@ If you find a bug or have ideas for improvemement, feel free to open an issue or
 Developed by Harijs Pugačs.
 
 # Screenshots
-![image](https://github.com/Pugijsons/WeatherApp/assets/98178230/8e6bc390-9c18-4db1-95f9-d7d83c0688b7)
+![image](https://github.com/Pugijsons/WeatherApp/assets/98178230/2b743dc7-d6ee-4706-8a6c-1ca7e8398fdb)
+
