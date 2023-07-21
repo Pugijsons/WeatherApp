@@ -7,7 +7,6 @@ namespace WeatherApp.Data
     {
         public WeatherAppDbContext(DbContextOptions options) : base(options)
         {
-
         }
         public DbSet<IPCallResponseModel> IpCallResponse { get; set; }
         public DbSet<WeatherData> WeatherData { get; set; }

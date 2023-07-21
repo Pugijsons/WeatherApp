@@ -18,19 +18,4 @@ public class EntityService<T> : IEntityService<T> where T : class
         _context.Set<T>().Add(entity);
         _context.SaveChanges();
     }
-
-    public void Delete(T entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public T GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Update(T entity)
-    {
-        throw new NotImplementedException();
-    }
 }
