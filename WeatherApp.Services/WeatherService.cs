@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using WeatherApp.Core;
 using WeatherApp.Core.Models;
-using WeatherApp.Data;
 using WeatherApp.Services.Memory;
 
 namespace WeatherApp.Services;
